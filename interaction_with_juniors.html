@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TechNirman 2K27 — FY & SY Introduction</title>
+<style>
+*{box-sizing:border-box}
+:root{
+ --bg:#06030d;--panel:#10091b;--pink:#ef169f;--pink2:#ff5ac8;
+ --purple:#712cff;--blue:#7186ff;--white:#f8f4fa;--muted:#c9bfd0;
+ --line:rgba(255,255,255,.13)
+}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg)}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
+"Helvetica Neue",Arial,sans-serif;color:var(--white)}
+.deck{
+ width:100vw;height:100vh;position:relative;overflow:hidden;
+ background:
+ radial-gradient(circle at 88% 5%,rgba(113,44,255,.20),transparent 28%),
+ radial-gradient(circle at 5% 92%,rgba(239,22,159,.13),transparent 30%),
+ #06030d
+}
+.slide{
+ position:absolute;inset:0;padding:5vh 5vw max(90px,7vh);display:flex;flex-direction:column;
+ opacity:0;visibility:hidden;transform:translateX(45px) scale(.985);
+ transition:opacity .42s ease,transform .55s cubic-bezier(.2,.8,.2,1);
+ overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;
+ scrollbar-color:rgba(239,22,159,.78) rgba(255,255,255,.08)
+}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide::-webkit-scrollbar{width:10px}.slide::-webkit-scrollbar-track{background:rgba(255,255,255,.08)}.slide::-webkit-scrollbar-thumb{background:rgba(239,22,159,.72);border-radius:999px}
+.kicker{font-size:13px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--pink)}
+h1{font-size:clamp(54px,7vw,94px);line-height:.9;letter-spacing:-.055em;margin:13px 0}
+h2{font-size:clamp(40px,5vw,70px);line-height:.94;letter-spacing:-.05em;margin:10px 0 15px}
+h3{font-size:22px;line-height:1.1;margin:11px 0}
+p{font-size:17px;line-height:1.52;color:var(--muted);margin:0}
+.pink{color:var(--pink)}.blue{color:var(--blue)}
+.line{width:72px;height:4px;border-radius:99px;background:linear-gradient(90deg,var(--pink),var(--purple));margin:18px 0 24px}
+.grid{display:grid;gap:17px}.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{
+ position:relative;overflow:hidden;padding:21px;border-radius:21px;
+ border:1px solid var(--line);
+ background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.018));
+ transition:transform .4s ease,border-color .4s ease,box-shadow .4s ease
+}
+.card:before{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(135deg,rgba(239,22,159,.075),transparent 50%,rgba(113,44,255,.075))
+}
+.card>*{position:relative}
+.tag{
+ display:inline-flex;padding:6px 10px;border-radius:99px;
+ border:1px solid rgba(239,22,159,.4);background:rgba(239,22,159,.07);
+ color:#ff82d3;font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase
+}
+.num{font-size:39px;font-weight:950;letter-spacing:-.05em;color:var(--pink)}
+.quote{
+ margin-top:20px;padding:18px 22px;border-left:4px solid var(--pink);
+ border-radius:0 15px 15px 0;background:linear-gradient(90deg,rgba(239,22,159,.13),transparent);
+ font-size:22px;font-weight:800
+}
+.photo{
+ position:relative;min-height:145px;border-radius:17px;margin-bottom:15px;
+ border:1px solid rgba(255,255,255,.15);
+ background:
+ linear-gradient(135deg,rgba(239,22,159,.28),rgba(113,44,255,.22)),
+ repeating-linear-gradient(135deg,rgba(255,255,255,.045) 0 2px,transparent 2px 10px),
+ #171020;
+ display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;
+ transition:transform .4s ease,border-color .4s ease,box-shadow .4s ease
+}
+.photo b{font-size:16px}.photo small{display:block;color:#c9bfd0;font-size:11px;margin-top:7px}
+.photo img{display:block;width:100%;height:auto;max-height:68vh;object-fit:contain;border-radius:inherit}
+.photo.image-card{min-height:0;padding:0;overflow:hidden;align-self:start}
+
+/* ===== ALL NORMAL PHOTOS ===== */
+
+.photo-slot{
+  position:relative;
+  width:85%;
+  height:500px;
+  min-height:350px;
+  max-height:350px;
+
+  border-radius:20px;
+  overflow:hidden;
+  isolation:isolate;
+
+  border:1px solid rgba(255,255,255,.15);
+
+  background:
+    linear-gradient(135deg,rgba(239,22,159,.24),rgba(113,44,255,.20)),
+    #171020;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:
+    transform .42s cubic-bezier(.2,.8,.2,1),
+    border-color .42s ease,
+    box-shadow .42s ease;
+}
+
+.photo-slot img{
+  width:100%;
+  height:100%;
+  min-height:0;
+  max-height:none;
+
+  display:block;
+
+  object-fit:cover;
+  object-position:center;
+
+  border-radius:inherit;
+
+  opacity:0;
+  transition:
+    opacity .35s ease,
+    transform .5s ease,
+    filter .4s ease;
+}
+
+
+.photo-slot.loaded img{opacity:1}
+.photo-slot.contain img{object-fit:contain;background:#0c0812}
+.photo-slot.hero-photo{height:100%;min-height:420px;border:0;border-radius:0 0 0 44px}
+.photo-slot.hero-photo img{height:100%;max-height:none;object-fit:cover}
+.photo-fallback{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;text-align:center;padding:24px;color:#eee;z-index:1
+}
+.photo-fallback b{font-size:16px}.photo-fallback small{
+  color:#c9bfd0;font-size:11px;line-height:1.45;margin-top:8px
+}
+.photo-slot.loaded .photo-fallback{display:none}
+.photo-label{
+  position:absolute;left:13px;bottom:13px;z-index:4;
+  padding:7px 10px;border-radius:9px;background:rgba(6,3,13,.78);
+  border:1px solid rgba(255,255,255,.14);font-size:10px;font-weight:900;
+  letter-spacing:.1em;color:#fff;backdrop-filter:blur(8px)
+}
+/* Space/Arrow glow for image sections */
+.photo-slot.focus{
+  transform:translateY(-8px) scale(1.035)!important;
+  border-color:rgba(239,22,159,.98)!important;
+  box-shadow:0 0 0 2px rgba(239,22,159,.18),0 0 36px rgba(239,22,159,.65),0 22px 70px rgba(0,0,0,.58)!important
+}
+.photo-slot.focus img{transform:scale(1.025);filter:saturate(1.15) brightness(1.06)}
+.photo-slot.focus:after{
+  content:"";position:absolute;inset:-2px;border-radius:inherit;z-index:5;pointer-events:none;
+  background:linear-gradient(105deg,transparent 15%,rgba(255,255,255,.55) 48%,transparent 78%);
+  background-size:230% 100%;animation:photoSweep 1s ease-out
+}
+@keyframes photoSweep{from{background-position:125% 0}to{background-position:-125% 0}}
+.photo-wide{min-height:220px}
+@media(max-width:900px){
+  .photo-slot.hero-photo{height:320px;min-height:320px;border-radius:20px}
+}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:center;height:100%}
+.hero{height:100%}.hero .photo{height:100%;border:0;border-radius:0 0 0 44px}.hero .photo.image-card{height:100%;min-height:0}
+.hero .photo.image-card img{height:100%;max-height:none;object-fit:cover}
+.event-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.event{
+ padding:13px 15px;border:1px solid rgba(255,255,255,.1);border-radius:13px;
+ background:rgba(255,255,255,.035);font-size:15px;color:#eee7ef
+}
+.flow{display:flex;align-items:center;justify-content:center;gap:10px;margin:25px 0}
+.flowbox{padding:18px 20px;border:1px solid rgba(239,22,159,.3);border-radius:16px;background:rgba(239,22,159,.07);font-weight:850;text-align:center}
+.arrow{font-size:25px;color:var(--pink)}
+.bigcenter{text-align:center;max-width:1000px;margin:auto}
+.bigcenter h1{font-size:clamp(65px,9vw,120px)}
+.next{
+ margin-top:auto;padding:19px 23px;border-radius:18px;border:1px solid rgba(239,22,159,.34);
+ background:linear-gradient(90deg,rgba(239,22,159,.12),rgba(113,44,255,.1))
+}
+.instagram-qr-card{
+ width:210px;margin:24px auto 0;padding:13px;border-radius:19px;
+ border:1px solid rgba(239,22,159,.48);
+ background:rgba(10,6,18,.82);box-shadow:0 14px 35px rgba(0,0,0,.3)
+}
+.instagram-qr-card img{display:block;width:100%;border-radius:11px;background:#fff}
+.instagram-qr-label{
+ margin:10px 0 0;text-align:center;color:#fff;font-size:14px;
+ font-weight:800;line-height:1.35
+}
+.slide-qr-row{
+ display:flex;justify-content:center;gap:18px;margin:24px 0 20px
+}
+.slide-qr-item{width:165px}
+.slide-qr-row .instagram-qr-card{width:165px;margin:0;padding:11px}
+.slide-qr-row .instagram-qr-label{margin-top:8px;font-size:12px}
+.focus{
+ transform:translateY(-7px) scale(1.035)!important;
+ border-color:rgba(239,22,159,.98)!important;
+ box-shadow:0 0 0 2px rgba(239,22,159,.14),0 0 32px rgba(239,22,159,.55),0 25px 70px rgba(0,0,0,.55)!important
+}
+.focus:after{
+ content:"";position:absolute;inset:-2px;border-radius:inherit;pointer-events:none;
+ background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);
+ background-size:220% 100%;animation:sweep 1s ease-out
+}
+@keyframes sweep{from{background-position:120% 0}to{background-position:-120% 0}}
+.controls{position:fixed;right:18px;bottom:17px;display:flex;gap:7px;z-index:50}
+button{
+ color:#fff;background:rgba(10,6,18,.84);border:1px solid rgba(255,255,255,.15);
+ border-radius:11px;padding:9px 13px;cursor:pointer
+}
+button:hover{border-color:var(--pink);box-shadow:0 0 20px rgba(239,22,159,.25)}
+.progress{
+ position:fixed;left:18px;bottom:18px;z-index:50;
+ color:#fff;background:rgba(10,6,18,.75);border:1px solid rgba(255,255,255,.1);
+ border-radius:99px;padding:8px 11px;font-size:12px;font-weight:900
+}
+.hint{
+ position:fixed;left:50%;bottom:20px;transform:translateX(-50%);
+ color:rgba(255,255,255,.45);font-size:11px;z-index:50
+}
+.photo-popup{
+ position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:28px;
+ background:rgba(3,1,8,.82);backdrop-filter:blur(10px);opacity:0;visibility:hidden;
+ transition:opacity .25s ease,visibility .25s ease
+}
+.photo-popup.open{opacity:1;visibility:visible}
+.photo-popup-card{
+ position:relative;width:min(520px,100%);max-height:calc(100vh - 56px);padding:13px;
+ border:1px solid rgba(239,22,159,.55);border-radius:24px;background:#10091b;
+ box-shadow:0 24px 90px rgba(0,0,0,.7)
+}
+.photo-popup-card.switching{animation:popupPhotoChange .32s cubic-bezier(.2,.8,.2,1)}
+.photo-popup-content .card{width:100%;padding:21px}
+.photo-popup-content .photo-slot{width:100%;height:min(500px,60vh);min-height:0;max-height:none}
+.photo-popup-content .photo-slot img{object-fit:contain;background:#06030d}
+.photo-popup-close{position:absolute;top:-13px;right:-13px;width:36px;height:36px;padding:0;border-radius:50%;font-size:23px;line-height:1;background:#201129}
+@keyframes popupPhotoChange{from{opacity:0;transform:scale(.94) translateY(12px)}to{opacity:1;transform:none}}
+@media(max-width:900px){
+ .slide{padding:25px 23px 70px;overflow:auto}
+ .split,.g2,.g3,.g4{grid-template-columns:1fr}
+ .split{height:auto}.hero{display:block;height:auto}.hero .photo{height:auto;min-height:280px;border-radius:17px}.hint{display:none}
+}
+@media print{
+ html,body{overflow:visible}.slide{position:relative;opacity:1!important;visibility:visible!important;
+ transform:none!important;height:100vh;page-break-after:always}
+ .controls,.progress,.hint{display:none!important}
+}
+/* ===== PHOTO 24 ONLY — KEEP HERO STYLE ===== */
+
+#photo24 {
+  width:100%;
+  height:100%;
+  min-height:420px;
+  max-height:none;
+  border:0;
+  border-radius:0 0 0 44px;
+}
+
+#photo24 img {
+  width:100%;
+  height:100%;
+  min-height:0;
+  max-height:none;
+  object-fit:cover;
+  object-position:center;
+}
+#photo25 {
+  width:100%;
+  height:100%;
+  min-height:420px;
+  max-height:none;
+  border:0;
+  border-radius:0 0 0 44px;
+}
+
+#photo25 img {
+  width:100%;
+  height:100%;
+  min-height:0;
+  max-height:none;
+  object-fit:cover;
+  object-position:center;
+}
+#photo3 {
+  width:100%;
+  height:100%;
+  min-height:420px;
+  max-height:none;
+  border:0;
+  border-radius:0 0 0 44px;
+}
+
+#photo3 img {
+  width:100%;
+  height:100%;
+  min-height:0;
+  max-height:none;
+  object-fit:cover;
+  object-position:center;
+}
+#photo1 {
+  width:100%;
+  height:100%;
+  min-height:420px;
+  max-height:none;
+  border:0;
+  border-radius:0 0 0 44px;
+}
+
+#photo1 img {
+  width:100%;
+  height:100%;
+  min-height:0;
+  max-height:none;
+  object-fit:cover;
+  object-position:center;
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide active">
+<div class="split">
+ <div>
+  <div class="kicker">IT Department • C.H.M. College</div>
+  <h1>TECHNIRMAN<br><span class="pink">2K27</span></h1>
+  <p style="font-size:24px;color:#eee">IT Department Tech & Cultural Fest</p>
+  <div class="line"></div>
+  <div class="grid g2">
+   <div class="card target"><span class="tag">Day 01</span><h3>TECH FEST</h3><p>Coding • Projects • UI/UX • Esports</p></div>
+   <div class="card target"><span class="tag">Day 02</span><h3>CULTURAL FEST</h3><p>Games • Performances • Food • Farewell</p></div>
+  </div>
+  <div class="next"><b>Presented by:</b> TY B.Sc. IT — TechNirman 2K27 Organizing Committee</div>
+ </div>
+ <div class="hero"><div id="photo24" class="photo-slot photo24 target hero-photo" data-photo="photo24">
+  <img alt="TechNirman 2K27 photo 24">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 24</b>
+    <small>PHOTO 24<br>Add the relevant TechNirman photograph here.</small>
+  </div>
+  <span class="photo-label">PHOTO 24</span>
+</div></div>
+</div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+<div class="kicker">01 • The legacy</div>
+<h2><span class="pink">TECHNIRMAN IS A TRADITION.</span></h2>
+<p>It is an IT Department fest carried forward by successive batches.</p>
+<div class="line"></div>
+<div class="grid g3" style="margin-top:10px">
+ <div class="card target"><span class="tag">01</span><h3>Technology</h3><p>Technical competitions and challenges.</p></div>
+ <div class="card target"><span class="tag">02</span><h3>Creativity</h3><p>Design, projects, media and new ideas.</p></div>
+ <div class="card target"><span class="tag">03</span><h3>Culture</h3><p>Performances, games and department memories.</p></div>
+ <div class="card target"><span class="tag">04</span><h3>Inter-Collegiate</h3><p>The fest has been inter-collegiate for the past two years.</p></div>
+ <div class="card target"><span class="tag">05</span><h3>Open Participation</h3><p>Students from other departments and colleges can participate.</p></div>
+ <div class="card target"><span class="tag">06</span><h3>Every Year</h3><p>New competitions, ideas and experiences keep it evolving.</p></div>
+</div>
+<div class="quote">“The seniors started it. Every batch carries it forward.”</div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+<div class="bigcenter">
+ <div class="kicker">02 • The format</div>
+ <h1><span class="pink">TWO DAYS.</span><br>ONE FEST.</h1>
+ <p style="font-size:22px">Two completely different experiences — under one TechNirman.</p>
+</div>
+<div class="grid g2" style="margin-top:30px">
+ <div class="card target"><div id="photo22" class="photo-slot photo22 target" data-photo="photo22">
+  <img alt="TechNirman 2K27 photo 22">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 22</b>
+    <small>📸 TECH EVENT PHOTO<br>Technical competition / coding / esports.</small>
+  </div>
+  <span class="photo-label">PHOTO 22</span>
+</div><span class="tag">DAY 01</span><h3>TECH FEST</h3><p>Coding • Project Making • UI/UX • Esports • Technical Competitions</p></div>
+ <div class="card target"><div id="photo21" class="photo-slot photo21 target" data-photo="photo21">
+  <img alt="TechNirman 2K27 photo 21">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 21</b>
+    <small>📸 CULTURAL PHOTO<br>Dance / singing / stage / games.</small>
+  </div>
+  <span class="photo-label">PHOTO 21</span>
+</div><span class="tag">DAY 02</span><h3>CULTURAL FEST</h3><p>Singing • Dance • Games • Rap • Stand-up Comedy • Performances</p></div>
+</div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+<div class="kicker">03 • Day 01</div>
+<h2>WHERE <span class="pink">TECHNOLOGY</span> MEETS COMPETITION</h2>
+<p>Day 01 begins with the inauguration and then moves straight into technical events.</p>
+<div class="grid g2" style="margin-top:22px">
+ <div class="card target"><span class="tag">Inauguration</span><h3>Opening the fest</h3><p>Inauguration by Principal <b>Mrs. Manju Lalwani Pathak</b> and IT HOD <b>Mr. Agi Thomas</b>.</p></div>
+ <div class="card target"><span class="tag">Technical events</span><h3>What happens?</h3><p>Coding, Project Making, UI/UX Designing, Esports and new technical events.</p></div>
+</div>
+<div id="photo20" class="photo-slot photo20 target" data-photo="photo20">
+  <img alt="TechNirman 2K27 photo 20">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 20</b>
+    <small>📸 ADD TECHNICAL COMPETITION PHOTOS<br>Best choices: coding participants, UI/UX/project work, esports or judges evaluating participants.</small>
+  </div>
+  <span class="photo-label">PHOTO 20</span>
+</div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+<div class="kicker">04 • Day 01</div>
+<h2><span class="pink">COMPETE. CREATE. WIN.</span></h2>
+<div class="grid g3" style="margin-top:22px">
+ <div class="card target"><div class="num">🌍</div><h3>Inter-Collegiate</h3><p>Students can compete beyond their own class and college.</p></div>
+ <div class="card target"><div class="num">🏆</div><h3>Prize Money</h3><p>Competitions come with prize opportunities.</p></div>
+ <div class="card target"><div class="num">🥇</div><h3>Trophies</h3><p>Recognition for winners and performers.</p></div>
+ <div class="card target"><div class="num">⭐</div><h3>Recognition</h3><p>Show what you can actually do.</p></div>
+ <div class="card target"><div class="num">🧠</div><h3>Experience</h3><p>Real competition experience.</p></div>
+ <div class="card target"><div class="num">🤝</div><h3>Networking</h3><p>Meet students from other departments and colleges.</p></div>
+</div>
+<div class="next"><b>IT Department contributors:</b> Day 01 participation is without separate event registration fees, subject to event rules.</div>
+<div id="photo19" class="photo-slot photo19 target" data-photo="photo19">
+  <img alt="TechNirman 2K27 photo 19">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 19</b>
+    <small>📸 ADD WINNER / TROPHY PHOTO<br>Use a previous winner, trophy or prize-distribution photograph.</small>
+  </div>
+  <span class="photo-label">PHOTO 19</span>
+</div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+<div class="kicker">05 • Day 02</div>
+<h2>FROM CODE TO <span class="blue">CULTURE.</span></h2>
+<p>Day 02 is exclusively for IT Department students.</p>
+<div class="grid g2" style="margin-top:24px">
+ <div class="card target"><span class="tag">Fun Events</span><h3>Everyone can play.</h3><p>Debate • Doodle Decode • Tongue Twister • Unique Fun Games</p></div>
+ <div class="card target"><span class="tag">Stage</span><h3>Everyone can perform.</h3><p>Singing • Solo Dance • Group Dance • Rap • Stand-up Comedy • More</p></div>
+</div>
+<div id="photo18" class="photo-slot photo18 target" data-photo="photo18">
+  <img alt="TechNirman 2K27 photo 18">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 18</b>
+    <small>📸 ADD CULTURAL EVENT PHOTOS<br>Use one games photo and one strong stage-performance photo.</small>
+  </div>
+  <span class="photo-label">PHOTO 18</span>
+</div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+<div class="bigcenter">
+<div class="kicker">06 • The experience</div>
+<h2>ONE DAY. ONE DEPARTMENT.<br><span class="pink">MANY MEMORIES.</span></h2>
+</div>
+<div class="grid g3" style="margin-top:25px">
+ <div class="card target"><h3>🎮 Games & Activities</h3><p>Fun events that get everyone involved.</p></div>
+ <div class="card target"><h3>🎤 Performances</h3><p>Students take over the stage.</p></div>
+ <div class="card target"><h3>🍱 Food</h3><p>Food for contributors.</p></div>
+ <div class="card target"><h3>📸 Photography</h3><p>Capture the moments.</p></div>
+ <div class="card target"><h3>🤝 Batch Interaction</h3><p>FY + SY + TY together.</p></div>
+ <div class="card target"><h3>🎓 TY Farewell</h3><p>End the fest with a proper goodbye.</p></div>
+</div>
+<div class="quote">“Not just an event. Two days we'll remember.”</div>
+<div id="photo17" class="photo-slot photo17 target" data-photo="photo17">
+  <img alt="TechNirman 2K27 photo 17">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 17</b>
+    <small>📸 PHOTO-HEAVY COLLAGE<br>Use fun, food, performances and group moments. This slide should be mostly photos.</small>
+  </div>
+  <span class="photo-label">PHOTO 17</span>
+</div>
+</section>
+
+<!-- 8 -->
+<section class="slide popup-photos">
+<div class="kicker">07 • The people</div>
+<h2>THE PEOPLE BEHIND<br><span class="pink">TECHNIRMAN 2K27</span></h2>
+<p>Meet the OGs / Core Organizers who coordinate the overall fest.</p>
+<div class="grid g3" style="margin-top:25px">
+ <div class="card target"><div id="photo16" class="photo-slot photo16 target" data-photo="photo16">
+  <img alt="TechNirman 2K27 photo 16">
+  <div class="photo-fallback">
+    <b>📸 Photo 16</b>
+    <small>📸 OG PHOTO 01<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>Core Organizer - Jairaj</h3><p>Sponsorship & Creative Team</p></div>
+ <div class="card target"><div id="photo15" class="photo-slot photo15 target" data-photo="photo15">
+  <img alt="TechNirman 2K27 photo 15">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 15</b>
+    <small>📸 OG PHOTO 02<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>Core Organizer - Om</h3><p>Sponsorship & Finance</p></div>
+ <div class="card target"><div id="photo14" class="photo-slot photo14 target" data-photo="photo14">
+  <img alt="TechNirman 2K27 photo 14">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 14</b>
+    <small>📸 OG PHOTO 03<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>Core Organizer - Muyeed</h3><p>Sponsorship & Planning</p></div>
+  <div class="card target"><div id="photo13" class="photo-slot photo13 target" data-photo="photo13">
+  <img alt="TechNirman 2K27 photo 13">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 13</b>
+    <small>📸 OG PHOTO 04<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>Organizer - Fateema</h3><p>Cultural & Planning</p></div>
+ <div class="card target"><div id="photo12" class="photo-slot photo12 target" data-photo="photo12">
+  <img alt="TechNirman 2K27 photo 12">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 12</b>
+    <small>📸 OG PHOTO 05<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>OG / Core Organizer - Pankaj</h3><p>Content Team Execution</p></div>
+ <div class="card target"><div id="photo11" class="photo-slot photo11 target" data-photo="photo11">
+  <img alt="TechNirman 2K27 photo 11">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 11</b>
+    <small>📸 OG PHOTO 06<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>OG / Core Organizer - Ritesh</h3><p>Overall Cultural Execution</p></div>
+  <div class="card target"><div id="photo10" class="photo-slot photo10 target" data-photo="photo10">
+  <img alt="TechNirman 2K27 photo 10">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 10</b>
+    <small>📸 OG PHOTO 07<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>OG / Core Organizer - Naina</h3><p>Design Team Execution</p></div>
+ <div class="card target"><div id="photo9" class="photo-slot photo9 target" data-photo="photo9">
+  <img alt="TechNirman 2K27 photo 9">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 9</b>
+    <small>📸 OG PHOTO 08<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>OG / Core Organizer - Suhani</h3><p>Overall planning & Execution</p></div>
+ <div class="card target"><div id="photo8" class="photo-slot photo8 target" data-photo="photo8">
+  <img alt="TechNirman 2K27 photo 8">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 8</b>
+    <small>📸 OG PHOTO 09<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>OG / Core Organizer - Kritika</h3><p>Faculty communication</p></div>
+  <div class="card target"><div id="photo7" class="photo-slot photo7 target" data-photo="photo7">
+  <img alt="TechNirman 2K27 photo 7">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 7</b>
+    <small>📸 OG PHOTO 10<br>Add organizer portrait.</small>
+  </div>
+  <span class="photo-label">OG</span>
+</div><h3>OG / Core Organizer - Janvi</h3><p>Faculty Communication</p></div>
+</div>
+<div class="next"><b>Core responsibility:</b> overall planning, team coordination, faculty communication and event execution.</div>
+</section>
+
+<!-- 9 -->
+<section class="slide popup-photos">
+<div class="kicker">08 • Event Heads</div>
+<h2>THE TEAMS THAT <span class="pink">MAKE IT HAPPEN.</span></h2>
+<div class="grid g3" style="margin-top:20px">
+  <div class="card target"><div id="photo0" class="photo-slot photo0 target" data-photo="photo0">
+  <img alt="Raj Nair, Tech Head">
+  <div class="photo-fallback">
+    <b>📸 RAJ NAIR PHOTO</b>
+    <small>Add Raj Nair's photo.</small>
+  </div>
+  <span class="photo-label">RAJ NAIR</span>
+</div><span class="tag">Tech</span><h3>Raj Nair</h3><p><b>Tech Head</b><br>Technical planning & execution</p></div>
+ <div class="card target"><div id="photo6" class="photo-slot photo6 target" data-photo="photo6">
+  <img alt="TechNirman 2K27 photo 6">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 6</b>
+    <small>📸 ARYAN PHOTO<br>Add Aryan Lad's photo.</small>
+  </div>
+  <span class="photo-label">PHOTO 6</span>
+</div><span class="tag">Social Media</span><h3>Aryan Lad</h3><p><b>Social Media Head</b><br>Social Media + Editing</p></div>
+ <div class="card target"><div id="photo5" class="photo-slot photo5 target" data-photo="photo5">
+  <img alt="TechNirman 2K27 photo 5">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 5</b>
+    <small>📸 PRINCE PHOTO<br>Add Prince Tiwari's photo.</small>
+  </div>
+  <span class="photo-label">PHOTO 5</span>
+</div><span class="tag">Coverage</span><h3>Prince Tiwari & Team</h3><p><b>Event Coverage Head</b><br>Reels + Event Shooting + Editing</p></div>
+ <div class="card target"><div id="photo4" class="photo-slot photo4 target" data-photo="photo4">
+  <img alt="TechNirman 2K27 photo 4">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 4</b>
+    <small>📸 NAWAZ PHOTO<br>Add Nawaz's photo.</small>
+  </div>
+  <span class="photo-label">PHOTO 4</span>
+</div><span class="tag">Film Editing</span><h3>Nawaz</h3><p><b>Film Editing Head</b><br>Reel Editing + Voiceover</p></div>
+ 
+</div>
+<div class="next"><b>More Event Heads:</b> Remaining teams and heads will be added once finalized.</div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+<div class="kicker">09 • Your place in the team</div>
+<h2>TECHNIRMAN NEEDS <span class="pink">MORE THAN EVENT HEADS.</span></h2>
+<div class="flow">
+ <div class="flowbox target">OGs<br><small>Core Organizers</small></div><div class="arrow">→</div>
+ <div class="flowbox target">Event Heads</div><div class="arrow">→</div>
+ <div class="flowbox target">Team Members</div><div class="arrow">→</div>
+ <div class="flowbox target">Volunteers</div>
+</div>
+<div class="grid g2" style="margin-top:10px">
+ <div class="card target"><span class="tag">Event Head</span><p>Manages an entire area/team.</p></div>
+ <div class="card target"><span class="tag">Team Member</span><p>Works directly under an Event Head.</p></div>
+ <div class="card target"><span class="tag">Volunteer</span><p>Assists with event execution, setup and management.</p></div>
+ <div class="card target"><span class="tag">Independent Volunteer</span><p>Contributes individually through useful skills.</p></div>
+</div>
+
+<div id="photo25" class="photo-slot photo25 target photo-wide" data-photo="photo25" style="margin-top:20px">
+  <img alt="TechNirman 2K27 photo 25">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 25</b>
+    <small>Add a relevant TechNirman 2K26 photograph for this slide.</small>
+  </div>
+  <span class="photo-label">PHOTO 25</span>
+</div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+<div class="kicker">10 • Skills</div>
+<h2>YOUR SKILL CAN BECOME PART OF <span class="pink">TECHNIRMAN.</span></h2>
+<div class="grid g3" style="margin-top:22px">
+ <div class="card target"><span class="tag">TECH</span><h3>Coding & Projects</h3><p>Coding • Web/App Development • Projects • Esports Management</p></div>
+ <div class="card target"><span class="tag">DESIGN</span><h3>Visuals</h3><p>Canva • Figma • UI/UX • Posters • Brochures • Logos</p></div>
+ <div class="card target"><span class="tag">MEDIA</span><h3>Content</h3><p>Photography • Videography • Reels • Editing • Voiceovers • Social Media</p></div>
+ <div class="card target"><span class="tag">CREATIVE</span><h3>Ideas & Stage</h3><p>Decoration • Stage Setup • Games • Event Ideas • Anchoring • Scripts</p></div>
+ <div class="card target"><span class="tag">MANAGEMENT</span><h3>Execution</h3><p>Registration • Coordination • Hospitality • Event Management • PR</p></div>
+ <div class="card target"><span class="tag">SPONSORSHIP</span><h3>Business Outreach</h3><p>Business Outreach • Sponsor Relations</p></div>
+</div>
+
+</section>
+
+<!-- 12 -->
+<section class="slide">
+<div class="bigcenter">
+<div class="kicker">11 • Contribution</div>
+<h2>EVERY CONTRIBUTION <span class="pink">BUILDS TECHNIRMAN.</span></h2>
+<p>The contribution supports food, activities, decorations, infrastructure and event execution.</p>
+</div>
+<div class="grid g3" style="margin:30px 0">
+ <div class="card target" style="text-align:center"><span class="tag">TY Students</span><div class="num">₹300</div></div>
+ <div class="card target" style="text-align:center"><span class="tag">SY Students</span><div class="num">₹200</div></div>
+ <div class="card target" style="text-align:center"><span class="tag">FY Students</span><div class="num">₹150</div></div>
+</div>
+<div class="quote">“This is a contribution towards the fest — not just a ticket to attend it.”</div>
+<div id="photo3" class="photo-slot photo3 target" data-photo="photo3">
+  <img alt="TechNirman 2K27 photo 3">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 3</b>
+    <small>📸 ADD WORKING / PREPARATION PHOTO<br>Students preparing decorations, materials or working together.</small>
+  </div>
+  <span class="photo-label">PHOTO 3</span>
+</div>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+<div class="kicker">12 • Sponsorship</div>
+<h2>KNOW A BUSINESS?<br><span class="pink">HAVE A CONTACT?</span></h2>
+<p>Bring genuine sponsorship opportunities to TechNirman 2K27.</p>
+<div class="grid g2" style="margin-top:24px">
+ <div class="card target"><span class="tag">Why it matters</span><h3>Make the fest bigger.</h3><p>Sponsorship can improve prize pools, infrastructure, decorations, merchandise, food, technical setup and overall event quality.</p></div>
+ <div class="card target"><span class="tag">Reward</span><h3>Bring genuine sponsorship → REAL SURPRISE GIFT 🎁</h3><p>Successful sponsorship must be verified and confirmed by the Organizing Committee.</p></div>
+</div>
+<div class="next"><b>Important:</b> Don’t make commitments to businesses yourself. Bring the contact to the sponsorship team and let the Organizing Committee handle the proposal and confirmation.</div>
+
+</section>
+
+<!-- 14 -->
+<section class="slide">
+<div class="kicker">13 • Why join?</div>
+<h2>YOU'RE NOT JUST VOLUNTEERING.<br><span class="pink">YOU'RE BUILDING SOMETHING.</span></h2>
+<div class="grid g3" style="margin-top:23px">
+ <div class="card target"><h3>🎯 Event Management</h3><p>Learn how a real event is executed.</p></div>
+ <div class="card target"><h3>👑 Leadership</h3><p>Take responsibility and lead.</p></div>
+ <div class="card target"><h3>🤝 Teamwork</h3><p>Work with people across batches.</p></div>
+ <div class="card target"><h3>🌐 Networking</h3><p>Meet students, judges, participants and external people.</p></div>
+ <div class="card target"><h3>💼 Portfolio Work</h3><p>Design, media and event work you can actually show.</p></div>
+ <div class="card target"><h3>⭐ Opportunity</h3><p>Grow from volunteer → team member → leader.</p></div>
+ <div class="card target"><h3>📱 Media / Design</h3><p>Build practical creative experience.</p></div>
+ <div class="card target"><h3>💼 External Experience</h3><p>Learn sponsor and participant communication.</p></div>
+ <div class="card target"><h3>❤️ Memories</h3><p>The part you’ll actually remember.</p></div>
+</div>
+<div class="quote">“The event lasts two days. The experience stays much longer.”</div>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+<div class="bigcenter">
+<div class="kicker">14 • One department</div>
+<h1><span class="pink">FY + SY + TY</span></h1>
+<p style="font-size:28px;color:#eee">Different Batches. Different Skills. <b>One Team.</b></p>
+<div class="line" style="margin:25px auto"></div>
+<div class="grid g3" style="text-align:center">
+ <div class="card target"><div class="num">TY</div><h3>LEADS</h3><p>Experience & direction</p></div>
+ <div class="card target"><div class="num">SY</div><h3>CONTRIBUTES</h3><p>Energy & execution</p></div>
+ <div class="card target"><div class="num">FY</div><h3>LEARNS</h3><p>New skills & experience</p></div>
+</div>
+<div class="quote">Everyone builds.</div>
+</div>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+<div class="bigcenter">
+<div class="kicker">15 • What happens next?</div>
+<h2>YOUR TECHNIRMAN JOURNEY <span class="pink">STARTS HERE.</span></h2>
+</div>
+<div class="grid g3" style="margin-top:30px">
+ <div class="card target"><div class="num">01</div><h3>Register</h3><p>Register your interest.</p></div>
+ <div class="card target"><div class="num">02</div><h3>Choose</h3><p>Choose your area of contribution.</p></div>
+ <div class="card target"><div class="num">03</div><h3>Meet</h3><p>Meet the respective Event Head.</p></div>
+ <div class="card target"><div class="num">04</div><h3>Join</h3><p>Join the team / volunteer.</p></div>
+ <div class="card target"><div class="num">05</div><h3>Prepare</h3><p>Start preparations.</p></div>
+ <div class="card target"><div class="num">06</div><h3>TECHNIRMAN 2K27</h3><p>Build the event.</p></div>
+</div>
+
+
+</section>
+
+<!-- 17 -->
+<section class="slide">
+<div class="kicker">16 • Expectations</div>
+<h2>JOINING A TEAM = <span class="pink">TAKING RESPONSIBILITY.</span></h2>
+<div class="grid g2" style="margin-top:25px">
+ <div class="card target"><h3>⏰ Be punctual</h3><p>Show up for meetings and assigned duties.</p></div>
+ <div class="card target"><h3>🤝 Respect the team</h3><p>Respect Event Heads and team members.</p></div>
+ <div class="card target"><h3>✅ Finish your work</h3><p>Complete assigned work on time.</p></div>
+ <div class="card target"><h3>📢 Communicate</h3><p>If you cannot complete a task, say so early.</p></div>
+ <div class="card target"><h3>🚀 Take initiative</h3><p>Don’t wait for instructions for everything.</p></div>
+ <div class="card target"><h3>🌐 Represent responsibly</h3><p>Be professional with external participants and sponsors.</p></div>
+</div>
+<div class="next"><b>Remember:</b> You are representing the IT Department when you work on TechNirman.</div>
+
+</section>
+
+<!-- 18 -->
+<section class="slide">
+<div class="split">
+ <div class="bigcenter" style="text-align:left;margin:0">
+  <div class="kicker">TECHNIRMAN 2K27</div>
+  <h1>THE NEXT<br>CHAPTER<br>IS <span class="pink">OURS.</span></h1>
+  <div class="line"></div>
+  <p style="font-size:24px;color:#eee">Tech. Culture. Competition. Creativity. Memories.</p>
+  <div class="slide-qr-row">
+   <div class="slide-qr-item">
+    <div class="instagram-qr-card target">
+     <img src="images/qr.jpeg" alt="Google Form QR">
+    </div>
+    <p class="instagram-qr-label">Scan this QR to be a Team Member & Volunteer!</p>
+   </div>
+   <div class="slide-qr-item">
+    <div class="instagram-qr-card target">
+     <img src="images/insta_qr.jpeg" alt="Instagram QR code for @technirmaan_chmit">
+    </div>
+    <p class="instagram-qr-label">Follow Our Instagram @technirmaan_chmit</p>
+   </div>
+  </div>
+  <div class="quote">FY × SY × TY<br><span style="font-size:17px;color:#c9bfd0">Let's build it together.</span></div>
+ </div>
+ <div class="hero"><div id="photo1" class="photo-slot photo1 target hero-photo" data-photo="photo1">
+  <img alt="TechNirman 2K27 photo 1">
+  <div class="photo-fallback">
+    <b>📸 PHOTO 1</b>
+    <small>📸 ADD BEST GROUP / EVENT PHOTO<br>Use the strongest closing photograph from TechNirman 2K26.</small>
+  </div>
+  <span class="photo-label">PHOTO 1</span>
+</div></div>
+</div>
+
+</section>
+
+</div>
+
+<div class="progress" id="progress">01 / 18</div>
+<div class="hint">SPACE / → reveal • next slide after all highlights &nbsp; | &nbsp; ← previous &nbsp; | &nbsp; F fullscreen</div>
+<div class="controls"><button id="prev">←</button><button id="next">→</button><button id="full">Fullscreen</button></div>
+<div class="photo-popup" id="photoPopup" aria-hidden="true">
+ <div class="photo-popup-card" role="dialog" aria-modal="true" aria-label="Organizer details">
+  <button class="photo-popup-close" id="photoPopupClose" aria-label="Close card popup">×</button>
+  <div class="photo-popup-content" id="photoPopupContent"></div>
+ </div>
+</div>
+
+
+<script>
+/* =========================================================
+   EDIT ONLY THIS SECTION TO CHANGE YOUR IMAGES.
+   Put the image files inside the "images" folder.
+   Example:
+   photo1: "images/my-cover-photo.jpg"
+   ========================================================= */
+const PHOTO_PATHS = {
+  photo1: "images/saree.jpg",
+  photo0: "images/raj_nair.png",
+  photo3: "images/crowd.png",
+  photo4: "images/nawaz.png",
+  photo5: "images/prince.png",
+  photo6: "images/aryan.png",
+  photo7: "images/janvi.png",
+  photo8: "images/kritika.png",
+  photo9: "images/suhani.png",
+  photo10: "images/naina.png",
+  photo11: "images/ritesh.png",
+  photo12: "images/pankaj.png",
+  photo13: "images/fateema.png",
+  photo14: "images/muyeed.png",
+  photo16: "images/jairaj.png",
+  photo15: "images/om_ai.png",
+  photo17: "images/memories.jpeg",
+  photo18: "images/image.png",
+  photo19: "images/coding_.jpeg",
+  photo20: "images/2.jpeg",
+  photo21: "images/cultural_day.jpg",
+  photo22: "images/tech_event.jpg",
+  photo23: "images/seniors.jpeg",
+  photo24: "images/1.jpeg",
+  photo25: "images/boys_group.jpeg",
+  photo28: "images/photo28.jpg",
+  photo29: "images/qr.jpeg"
+};
+
+/* Use "contain" for posters/portraits you do not want cropped. */
+const PHOTO_FIT = {
+  // photo1: "contain",
+  // photo8: "contain",
+};
+
+const slides=[...document.querySelectorAll('.slide')];
+const photoPopup=document.getElementById('photoPopup');
+const photoPopupCard=photoPopup.querySelector('.photo-popup-card');
+const photoPopupContent=document.getElementById('photoPopupContent');
+
+function closePhotoPopup(){
+  photoPopup.classList.remove('open');
+  photoPopup.setAttribute('aria-hidden','true');
+}
+function showCardPopup(card){
+  const name=card.querySelector('h3')?.textContent || 'Organizer';
+  const cardCopy=card.cloneNode(true);
+  cardCopy.classList.remove('target','focus');
+  photoPopupContent.replaceChildren(cardCopy);
+  photoPopupCard.setAttribute('aria-label',name);
+  photoPopupCard.classList.remove('switching');
+  void photoPopupCard.offsetWidth;
+  photoPopupCard.classList.add('switching');
+  photoPopup.classList.add('open');
+  photoPopup.setAttribute('aria-hidden','false');
+}
+document.getElementById('photoPopupClose').onclick=closePhotoPopup;
+photoPopup.addEventListener('click',e=>{if(e.target===photoPopup) closePhotoPopup()});
+
+function loadPhotos(){
+  document.querySelectorAll('.photo-slot').forEach(slot=>{
+    const id=slot.dataset.photo;
+    const img=slot.querySelector('img');
+    const src=PHOTO_PATHS[id];
+    if(!img || !src) return;
+
+    if(PHOTO_FIT[id]==='contain') slot.classList.add('contain');
+    const showImage=()=>slot.classList.add('loaded');
+    img.addEventListener('load',showImage);
+    img.addEventListener('error',()=>{
+      slot.classList.remove('loaded');
+      const fallback=slot.querySelector('.photo-fallback');
+      if(fallback) fallback.innerHTML =
+        `<b>📸 ${id.toUpperCase()}</b>
+         <small>Image not found.<br>Check PHOTO_PATHS["${id}"].</small>`;
+    });
+    img.src=encodeURI(src);
+    // Cached/local files can complete before a normal load event is observed.
+    if(img.complete && img.naturalWidth>0) showImage();
+  });
+}
+loadPhotos();
+
+let current=0,step=0;
+
+function targets(){
+  return [...slides[current].querySelectorAll('.target')];
+}
+function clear(){
+  slides[current].querySelectorAll('.focus').forEach(e=>e.classList.remove('focus'));
+}
+function show(n){
+  n=Math.max(0,Math.min(slides.length-1,n));
+  closePhotoPopup();
+  slides[current].classList.remove('active');
+  current=n;step=0;clear();
+  slides[current].classList.add('active');
+  slides[current].scrollTo({top:0,left:0,behavior:'instant'});
+  document.getElementById('progress').textContent=
+    String(current+1).padStart(2,'0')+' / '+slides.length;
+}
+function next(){
+  if(slides[current].classList.contains('popup-photos')){
+    const cards=[...slides[current].querySelectorAll('.grid .card')];
+    if(step<cards.length){
+      showCardPopup(cards[step]);
+      step++;
+    }else show(current+1);
+    return;
+  }
+  const t=targets();
+  if(step<t.length){
+    clear();
+    const item=t[step];
+    item.classList.add('focus');
+    item.scrollIntoView({behavior:'smooth',block:'center'});
+    step++;
+  }else show(current+1);
+}
+function prev(){show(current-1)}
+
+document.getElementById('next').onclick=next;
+document.getElementById('prev').onclick=prev;
+
+document.addEventListener('keydown',e=>{
+  if([' ','ArrowRight','Enter','PageDown'].includes(e.key)){
+    e.preventDefault();next();
+  }else if(['ArrowLeft','PageUp'].includes(e.key)){
+    e.preventDefault();prev();
+  }else if(e.key==='Home'){
+    e.preventDefault();show(0);
+  }else if(e.key==='End'){
+    e.preventDefault();show(slides.length-1);
+  }else if(e.key.toLowerCase()==='f'){
+    e.preventDefault();
+    if(!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  }
+});
+document.getElementById('full').onclick=()=>{
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+};
+</script>
+
+</body>
+</html>
